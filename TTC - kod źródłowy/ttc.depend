@@ -1,0 +1,35 @@
+# depslib dependency file v1.0
+1273308782 source:c:\documents and settings\pc\pulpit\studia\ii semestr\pn\triple triad console\main.c
+	<time.h>
+	"struktury.h"
+	"pliki.h"
+	"zasady.h"
+	"interfejs.h"
+
+1273307906 c:\documents and settings\pc\pulpit\studia\ii semestr\pn\triple triad console\struktury.h
+	<stdio.h>
+	<string.h>
+	<math.h>
+	<windows.h>
+	<mmsystem.h>
+	<curses.h>
+
+1273308242 c:\documents and settings\pc\pulpit\studia\ii semestr\pn\triple triad console\pliki.h
+	"struktury.h"
+
+1273308754 c:\documents and settings\pc\pulpit\studia\ii semestr\pn\triple triad console\zasady.h
+	"struktury.h"
+
+1273596899 c:\documents and settings\pc\pulpit\studia\ii semestr\pn\triple triad console\interfejs.h
+	"struktury.h"
+
+1273310302 source:c:\documents and settings\pc\pulpit\studia\ii semestr\pn\triple triad console\pliki.c
+	"pliki.h"
+
+1273596161 source:c:\documents and settings\pc\pulpit\studia\ii semestr\pn\triple triad console\zasady.c
+	"zasady.h"
+
+1273601700 source:c:\documents and settings\pc\pulpit\studia\ii semestr\pn\triple triad console\interfejs.c
+	"interfejs.h"
+	"pliki.h"
+
