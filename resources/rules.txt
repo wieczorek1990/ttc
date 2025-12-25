@@ -1,9 +1,0 @@
-Same	1
-Plus	1
-Minus	1
-Order	0
-Open	0
-Wall	0
-Wall Value	9
-Combo	1
-Muzyka	1
