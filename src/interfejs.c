@@ -473,9 +473,9 @@ int wybieranie_pola(WINDOW *win, struct dane *dane, struct zasady *zasady, int *
             break;
 
             /*
-			 * case 8: //BACKSPACE karta=wybieranie_karty(win,
-			 * dane, zasady, tura); break;
-				  */
+             * case 8: //BACKSPACE karta=wybieranie_karty(win,
+             * dane, zasady, tura); break;
+             */
         }
         idz_pole(win, w);
 
@@ -645,11 +645,11 @@ niekarta:
     {
 
         /*
-		 * wmove(win, 24, 1); wclrtoeol(win); wattron(win,
-		 * COLOR_PAIR(5)); mvwprintw(win, 24, 1, "Karta jest juz na
-		 * stole!"); wattroff(win, COLOR_PAIR(5)); wrefresh(win);
-		 * getch();
-			  */
+         * wmove(win, 24, 1); wclrtoeol(win); wattron(win,
+         * COLOR_PAIR(5)); mvwprintw(win, 24, 1, "Karta jest juz na
+         * stole!"); wattroff(win, COLOR_PAIR(5)); wrefresh(win);
+         * getch();
+         */
         goto niekarta;
     }
 niepole:
@@ -1274,27 +1274,27 @@ menu:
         break;
 
         /*
-		 * case 7: wmove(settings_win, 12, 1);
-		 * wclrtobot(settings_win); zasady->wall=!zasady->wall; if
-		 * (zasady->wall) mvwprintw(settings_win, 18, 45, "Wall
-		 * włączone"); else mvwprintw(settings_win, 18, 45, "Wall
-		 * wyłączone"); break; case 8: wmove(settings_win, 12, 1);
-		 * wclrtobot(settings_win);
-		 * zasady->set_wall=!zasady->set_wall; if (zasady->set_wall)
-		 * { while(true) {   wmove(settings_win, 12, 1);
-		 * wclrtoeol(settings_win); mvwprintw(settings_win, 12, 1,
-		 * "Jaka wartość ma mieć ściana?"); curs_set(1); echo();
-		 * mvwscanw(settings_win, 12, 30, "%d", &dane->wall_value);
-		 * if (dane->wall_value>0 && dane->wall_value<11) break;
-		 * else { mvwprintw(settings_win, 13, 1, "Podaj wartość z
-		 * zakresu od 1 do 10 "); } } mvwprintw(settings_win, 19,
-		 * 45, "Set Wall = %d włączone", dane->wall_value); } else
-		 * { wmove(settings_win, 19, 45); wclrtoeol(settings_win);
-		 * mvwprintw(settings_win, 19, 45, "Set Wall wyłączone"); }
-		 * curs_set(0); noecho(); wmove(settings_win, 12, 1);
-		 * wclrtoeol(settings_win); wmove(settings_win, 13, 1);
-		 * wclrtoeol(settings_win); break;
-			  */
+         * case 7: wmove(settings_win, 12, 1);
+         * wclrtobot(settings_win); zasady->wall=!zasady->wall; if
+         * (zasady->wall) mvwprintw(settings_win, 18, 45, "Wall
+         * włączone"); else mvwprintw(settings_win, 18, 45, "Wall
+         * wyłączone"); break; case 8: wmove(settings_win, 12, 1);
+         * wclrtobot(settings_win);
+         * zasady->set_wall=!zasady->set_wall; if (zasady->set_wall)
+         * { while(true) {   wmove(settings_win, 12, 1);
+         * wclrtoeol(settings_win); mvwprintw(settings_win, 12, 1,
+         * "Jaka wartość ma mieć ściana?"); curs_set(1); echo();
+         * mvwscanw(settings_win, 12, 30, "%d", &dane->wall_value);
+         * if (dane->wall_value>0 && dane->wall_value<11) break;
+         * else { mvwprintw(settings_win, 13, 1, "Podaj wartość z
+         * zakresu od 1 do 10 "); } } mvwprintw(settings_win, 19,
+         * 45, "Set Wall = %d włączone", dane->wall_value); } else
+         * { wmove(settings_win, 19, 45); wclrtoeol(settings_win);
+         * mvwprintw(settings_win, 19, 45, "Set Wall wyłączone"); }
+         * curs_set(0); noecho(); wmove(settings_win, 12, 1);
+         * wclrtoeol(settings_win); wmove(settings_win, 13, 1);
+         * wclrtoeol(settings_win); break;
+         */
     case 7:
         wmove(settings_win, 12, 1);
 
@@ -1396,12 +1396,12 @@ menu:
             mvwprintw(settings_win, 17, 45, "Combo wyłączone");
 
         /*
-		 * if (zasady->wall) mvwprintw(settings_win, 18, 45, "Wall
-		 * włączone"); else mvwprintw(settings_win, 18, 45, "Wall
-		 * wyłączone"); if (zasady->set_wall)
-		 * mvwprintw(settings_win, 19, 45, "Set Wall włączone"); else
-		 * mvwprintw(settings_win, 19, 45, "Set Wall wyłączone");
-			  */
+         * if (zasady->wall) mvwprintw(settings_win, 18, 45, "Wall
+         * włączone"); else mvwprintw(settings_win, 18, 45, "Wall
+         * wyłączone"); if (zasady->set_wall)
+         * mvwprintw(settings_win, 19, 45, "Set Wall włączone"); else
+         * mvwprintw(settings_win, 19, 45, "Set Wall wyłączone");
+         */
         if (zasady->muzyka)
 
             mvwprintw(settings_win, 20, 45, "Muzyka włączona");
