@@ -3,7 +3,8 @@
 
 #include "struktury.h"
 
-int zapis(WINDOW *win, struct dane* dane, struct zasady* zasady);
-int odczyt(WINDOW *win, struct dane* dane, struct zasady* zasady);
+int zapis(WINDOW *win, struct dane *dane, struct zasady *zasady);
 
-#endif // PLIKI_H_INCLUDED
+int odczyt(WINDOW *win, struct dane *dane, struct zasady *zasady);
+
+#endif /* // PLIKI_H_INCLUDED */
