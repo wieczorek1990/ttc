@@ -2,4 +2,18 @@
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
-gcc -o tripletriad src/main.c src/pliki.c src/interfejs.c src/zasady.c -lcurses -lm
+
+# Use CMake build if build directory exists, otherwise configure first
+if [ ! -d build ]; then
+    mkdir -p build
+    cd build
+    cmake ..
+    cd ..
+fi
+
+cd build
+cmake --build .
+cd ..
+
+# Copy the binary to the project root for convenience
+cp build/tripletriad ./tripletriad

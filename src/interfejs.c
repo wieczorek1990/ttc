@@ -1,4 +1,5 @@
 #include "interfejs.h"
+#include "midi_player.h"
 #include "pliki.h"
 #include <unistd.h>
 
@@ -1588,15 +1589,14 @@ void midi_start(struct zasady *zasady, char *midi) {
 
         return;
     }
-    char cmd[512];
 
-    snprintf(cmd, sizeof(cmd), "afplay '%s' &>/dev/null &", midi);
+    if (midi_player_start(midi) == 0) {
 
-    strcpy(zasady->midi_file, midi);
+        zasady->midi_playing = 1;
+    } else {
 
-    system(cmd);
-
-    zasady->midi_playing = 1;
+        zasady->midi_playing = 0;
+    }
 }
 
 void midi_stop(struct zasady *zasady) {
@@ -1604,12 +1604,7 @@ void midi_stop(struct zasady *zasady) {
     if (zasady->midi_playing)
 
     {
-
-        char cmd[512];
-
-        snprintf(cmd, sizeof(cmd), "pkill -f 'afplay.*%s'", zasady->midi_file);
-
-        system(cmd);
+        midi_player_stop();
 
         zasady->midi_playing = 0;
     }

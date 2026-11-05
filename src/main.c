@@ -19,6 +19,7 @@
  */
 
 #include "interfejs.h"
+#include "midi_player.h"
 #include "pliki.h"
 #include "struktury.h"
 #include "zasady.h"
@@ -66,6 +67,8 @@ int main(int argc, char **argv) {
 
     setlocale(LC_ALL, "");
 
+    midi_player_init();
+
     initscr();
 
     wlacz_kolory();
@@ -85,6 +88,8 @@ int main(int argc, char **argv) {
     refresh();
 
     endwin();
+
+    midi_player_shutdown();
 
     system("clear");
 
