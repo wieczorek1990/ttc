@@ -1,6 +1,6 @@
 //      TripleTriadConsole.c
 //
-//      Copyright 2010 £ukasz Wieczorek <wieczorek1990@gmail.com>
+//      Copyright 2010 ï¿½ukasz Wieczorek <wieczorek1990@gmail.com>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 //      MA 02110-1301, USA.
 
 #include <time.h>
+#include <stdlib.h>
 #include "struktury.h"
 #include "pliki.h"
 #include "zasady.h"
@@ -27,19 +28,22 @@ int main(int argc, char** argv)
 {
     struct zasady zasady;
     struct dane dane;
-    zasady.same=1, zasady.plus=1; zasady.minus=1;
+    zasady.same=1; zasady.plus=1; zasady.minus=1;
     zasady.open=0; zasady.order=0; zasady.order_counter=1;
     zasady.wall=0; zasady.combo=1;
-    zasady.muzyka=1;
+    zasady.muzyka=1; zasady.midi_playing=0;
     dane.zmiana0=0; dane.zmiana1=0; dane.zmiana2=0; dane.zbilem=0; dane.wall_value=9;
-    odczyt(stdscr, &dane, &zasady);
 	srand(time(0));
     initscr();
     wlacz_kolory();
     noecho();
     cbreak();
     curs_set(0);
+    odczyt(stdscr, &dane, &zasady);
     menu_glowne(&dane, &zasady);
+    erase();
+    refresh();
     endwin();
+    system("clear");
 	return 0;
 }

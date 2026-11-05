@@ -4,8 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include <windows.h>
-#include <mmsystem.h>
+#include <stdlib.h>
 #include <curses.h>
 
 #define WIDTH 80
@@ -13,16 +12,17 @@
 
 struct dane
 {
-    char* znak[11];
-    int wylozona[11], karta_plansza_gora[11], karta_plansza_dol[11], karta_plansza_lewo[11],
-    karta_plansza_prawo[11], karta_gracza_gora[11], karta_gracza_dol[11], karta_gracza_lewo[11],
-    karta_gracza_prawo[11], zmiana0, zmiana1, zmiana2, zbilem, wall_value;
+    int znak[12];
+    int wylozona[12], karta_plansza_gora[12], karta_plansza_dol[12], karta_plansza_lewo[12],
+    karta_plansza_prawo[12], karta_gracza_gora[12], karta_gracza_dol[12], karta_gracza_lewo[12],
+    karta_gracza_prawo[12], zmiana0, zmiana1, zmiana2, zbilem, wall_value;
 };
 
 struct zasady
 {
     int same, plus, minus, open, order, order_counter, wall, combo, muzyka;
-    MCI_OPEN_PARMS mciOpenParms;
+    int midi_playing;
+    char midi_file[256];
 };
 
 #endif // STRUKTURY_H_INCLUDED

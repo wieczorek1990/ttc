@@ -1,5 +1,6 @@
 #include "interfejs.h"
 #include "pliki.h"
+#include <unistd.h>
 
 void wynik2(WINDOW *win, struct dane* dane)
 {
@@ -14,9 +15,9 @@ void wynik2(WINDOW *win, struct dane* dane)
     //Karty na planszy
     for(i=1;i<10;i++)
     {
-        if (dane->znak[i]==(char*)177)
+        if (dane->znak[i]==177)
             wynik1++;
-        else if (dane->znak[i]==(char*)178)
+        else if (dane->znak[i]==178)
             wynik2++;
     }
     wattron(win, COLOR_PAIR(1));
@@ -27,12 +28,12 @@ void wynik2(WINDOW *win, struct dane* dane)
 
 void wynik(WINDOW *win, struct dane* dane, struct zasady* zasady, int tura)
 {
-    int wynik1=0, wynik2=1, i;
+    int wynik1=0, wynik2=0, i;
     for(i=0;i<9;i++)
     {
-        if (dane->znak[i]==(char*)177)
+        if (dane->znak[i]==177)
             wynik1++;
-        else
+        else if (dane->znak[i]==178)
             wynik2++;
     }
     midi_stop(zasady);
@@ -45,17 +46,17 @@ void wynik(WINDOW *win, struct dane* dane, struct zasady* zasady, int tura)
 	if (wynik1>wynik2)
 	{
 		print_in_middle(win, 17, 0, 0, "Wygrywa gracz pierwszy!");
-		midi_start(zasady, "midi\\fan.mid");
+		midi_start(zasady, "midi/fan.mid");
 	}
 	else if (wynik1<wynik2)
 	{
 		print_in_middle(win, 17, 0, 0, "Wygrywa gracz drugi!");
-		midi_start(zasady, "midi\\fan2.mid");
+		midi_start(zasady, "midi/fan2.mid");
 	}
 	else
 	{
 		print_in_middle(win, 17, 0, 0, "Remis!\n");
-		midi_start(zasady, "midi\\fan3.mid");
+		midi_start(zasady, "midi/fan3.mid");
 	}
     wrefresh(win);
     wgetch(win);
@@ -101,7 +102,7 @@ void plansza(WINDOW *win, struct dane* dane)
     {
         for(j=31;j<46;j+=6)
         {
-            if (dane->znak[karta]==(char*)32) color=4; else if (dane->znak[karta]==(char*)177) color=2; else color=3;
+            if (dane->znak[karta]==32) color=4; else if (dane->znak[karta]==177) color=2; else color=3;
             wattron(win, COLOR_PAIR(color));
             mvwprintw(win, i+1, j, "%c%d%c",dane->znak[karta], dane->karta_plansza_gora[karta], dane->znak[karta]);
             mvwprintw(win, i+2, j, "%d%c%d",dane->karta_plansza_lewo[karta], dane->znak[karta], dane->karta_plansza_prawo[karta]);
@@ -375,7 +376,7 @@ void ruch(WINDOW *win, struct dane* dane, struct zasady* zasady, int tura)
         wattroff(win, COLOR_PAIR(5));
         wrefresh(win);
         wybor=wybieranie_pola(win, dane, zasady, &karta, tura);
-        if (dane->znak[wybor]!=(char*)32)
+        if (dane->znak[wybor]!=32)
         {
             wmove(win, 24, 1);
             wclrtoeol(win);
@@ -387,9 +388,9 @@ void ruch(WINDOW *win, struct dane* dane, struct zasady* zasady, int tura)
             goto niepole;
         }
         if (tura%2==0)
-            dane->znak[wybor]=(char*)177;
+            dane->znak[wybor]=177;
         else
-            dane->znak[wybor]=(char*)178;
+            dane->znak[wybor]=178;
         dane->karta_plansza_gora[wybor]=dane->karta_gracza_gora[karta];
         dane->karta_plansza_dol[wybor]=dane->karta_gracza_dol[karta];
         dane->karta_plansza_lewo[wybor]=dane->karta_gracza_lewo[karta];
@@ -420,7 +421,7 @@ void czysc_plansze(struct dane* dane)
 		dane->karta_plansza_dol[i]=0;
 		dane->karta_plansza_lewo[i]=0;
 		dane->karta_plansza_prawo[i]=0;
-        dane->znak[i]=(char*)32;
+        dane->znak[i]=32;
 		dane->wylozona[i]=0;
 	}
 }
@@ -444,7 +445,7 @@ void gra(struct dane* dane, struct zasady* zasady)
 	keypad(win, TRUE);
         midi_stop(zasady);
     if(zasady->muzyka)
-        midi_start(zasady, "midi\\sob.mid");
+        midi_start(zasady, "midi/sob.mid");
 
 	przygotuj_karty(dane);
 	czysc_plansze(dane);
@@ -559,7 +560,7 @@ void autor(struct dane* dane, struct zasady* zasady)
     wclrtobot(win);
     switch(wybor)
 	{
-	    case 1: ShellExecute(NULL,"open", "mailto:wieczorek1990@gmail.com", NULL, NULL, SW_SHOW); break;
+	    case 1: system("open 'mailto:wieczorek1990@gmail.com'"); break;
 		case 2: menu_glowne(dane, zasady); return; break;
 	}
     wattroff(win, COLOR_PAIR(3));
@@ -570,7 +571,6 @@ void autor(struct dane* dane, struct zasady* zasady)
 char *choices[] = {
 			"Nowa gra",
 			"Wybierz zasady gry",
-			"Nauka gry",
 			"O autorze i sterowaniu",
 			"Wyjscie"
 		  };
@@ -612,20 +612,19 @@ void print_menu(WINDOW *menu_win, int highlight)
 }
 
 char *choices2[] = {
-			"Same",
-			"Plus",
-			"Minus",
-			"Open",
-			"Order",
-			"Combo",
-			//"Wall",
-			//"Set Wall",
-			"Zapisz ustawienia do pliku",
-			"Wczytaj ustawienia z pliku",
-			"Wylacz/Wlacz dzwiek",
-			"Aktualne ustawienia",
-			"-> Powrot do menu",
-		  };
+				"Same",
+				"Plus",
+				"Minus",
+				"Open",
+				"Order",
+				"Combo",
+				"Zapisz ustawienia do pliku",
+				"Wczytaj ustawienia z pliku",
+				"Wylacz/Wlacz dzwiek",
+				"Aktualne ustawienia",
+				"Resetuj zasady",
+				"-> Powrot do menu",
+			  };
 
 int n_choices2 = sizeof(choices2) / sizeof(char *);
 
@@ -790,7 +789,7 @@ void ustawienia(struct dane* dane, struct zasady* zasady)
 				if (zasady->muzyka)
 				{
 					mvwprintw(settings_win, 20, 45, "Muzyka wlaczona");
-                    midi_start(zasady, "midi\\fh.mid");
+                    midi_start(zasady, "midi/fh.mid");
 				}
 				else
 				{
@@ -837,7 +836,14 @@ void ustawienia(struct dane* dane, struct zasady* zasady)
 				else
 					mvwprintw(settings_win, 20, 45, "Muzyka wylaczona");
                 break;
-		case 11: menu_glowne(dane, zasady); return; break;
+		case 11: wmove(settings_win, 12, 1);
+                wclrtobot(settings_win);
+                zasady->same=1; zasady->plus=1; zasady->minus=1;
+                zasady->open=0; zasady->order=0; zasady->order_counter=1;
+                zasady->wall=0; zasady->combo=1; zasady->muzyka=1;
+                mvwprintw(settings_win, 20, 45, "Zasady zresetowane");
+                break;
+		case 12: menu_glowne(dane, zasady); return; break;
 	}
 	wattroff(settings_win, COLOR_PAIR(3));
 	wrefresh(settings_win);
@@ -854,7 +860,7 @@ void menu_glowne(struct dane* dane, struct zasady* zasady)
 	menu:
 	wybor=0;
     if(zasady->muzyka)
-        midi_start(zasady, "midi\\fh.mid");
+        midi_start(zasady, "midi/fh.mid");
 	print_menu(menu_win, highlight);
 	while(1)
 	{	c = wgetch(menu_win);
@@ -881,14 +887,15 @@ void menu_glowne(struct dane* dane, struct zasady* zasady)
 	}
 	switch(wybor)
 	{
-		case 1: if(zasady->muzyka)
+ 	case 1: if(zasady->muzyka)
                     midi_stop(zasady);
                 gra(dane, zasady); break;
-		case 2: ustawienia(dane, zasady); break;
-		case 3: www(); break;
-		case 4: autor(dane, zasady); break;
-		case 5: if(zasady->muzyka)
+	case 2: ustawienia(dane, zasady); break;
+	case 3: autor(dane, zasady); break;
+	case 4: if(zasady->muzyka)
                     midi_stop(zasady);
+                endwin();
+                system("clear");
                 exit(0); break;
 	}
 	goto menu;
@@ -915,23 +922,28 @@ void wlacz_kolory()
 
 void midi_start(struct zasady* zasady, char* midi)
 {
-    zasady->mciOpenParms.lpstrDeviceType="sequencer";
-    zasady->mciOpenParms.lpstrElementName=midi;
-    mciSendCommand(0, MCI_OPEN, MCI_OPEN_TYPE | MCI_OPEN_ELEMENT,(DWORD)&zasady->mciOpenParms);
-    MCI_PLAY_PARMS mciPlayParms;
-    mciSendCommand(zasady->mciOpenParms.wDeviceID, MCI_PLAY, MCI_NOTIFY, (DWORD)&mciPlayParms);
+    if (zasady->midi_playing)
+        midi_stop(zasady);
+    /* Check if the file exists before trying to play it */
+    if (access(midi, F_OK) != 0) {
+        zasady->midi_playing = 0;
+        return;
+    }
+    char cmd[512];
+    snprintf(cmd, sizeof(cmd), "afplay '%s' &>/dev/null &", midi);
+    strcpy(zasady->midi_file, midi);
+    system(cmd);
+    zasady->midi_playing = 1;
 }
 
 void midi_stop(struct zasady* zasady)
 {
-    if (zasady->mciOpenParms.wDeviceID)
-        mciSendCommand(zasady->mciOpenParms.wDeviceID, MCI_CLOSE, 0, 0);
-    zasady->mciOpenParms.wDeviceID=0;
+    if (zasady->midi_playing)
+    {
+        char cmd[512];
+        snprintf(cmd, sizeof(cmd), "pkill -f 'afplay.*%s'", zasady->midi_file);
+        system(cmd);
+        zasady->midi_playing = 0;
+    }
 }
 
-void www()
-{
-    ShellExecute(NULL, "open", "http://tripletriad.wikia.com/wiki/Triple_Triad:Triple_Triad_101", NULL, NULL, SW_SHOW);
-    ShellExecute(NULL, "open", "http://www.ttadvance.ca/tutorial.php", NULL, NULL, SW_SHOW);
-    ShellExecute(NULL, "open", "http://www.tripletriadextreme.com/GameInfo/What-Is-How-To-Play-Triple-Triad.aspx", NULL, NULL, SW_SHOW);
-}

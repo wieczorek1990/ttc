@@ -25,7 +25,6 @@ void menu_glowne(struct dane* dane, struct zasady* zasady);
 void wlacz_kolory();
 void midi_start(struct zasady* zasady, char* midi);
 void midi_stop(struct zasady* zasady);
-void www();
 extern void wykonaj_zasady(WINDOW *win, struct dane* dane, struct zasady* zasady, int a);
 extern int losowa(int min, int max);
 void autor(struct dane* dane, struct zasady* zasady);

@@ -262,6 +262,7 @@ void plus(WINDOW *win, struct dane* dane, struct zasady* zasady, int a)
 			break;
 	case 6: if ((pprawo(dane, a) == pgora(dane, a)) && (pgora(dane, a)*pprawo(dane, a) != 0) && (swoje_prawo(dane, a)+swoje_gora(dane, a)!=2))
 				plus_change(win, dane, zasady, 6,3,7);
+			break;
 	case 7: if (((pgora(dane, a) == plewo(dane, a)) && (pgora(dane, a)*plewo(dane, a)) != 0) && (swoje_gora(dane, a)+swoje_lewo(dane, a)!=2))
 				plus_change(win, dane, zasady, 7,4,6);
 			if ((pprawo(dane, a) == pgora(dane, a)) && (pprawo(dane, a)*pgora(dane, a) != 0) && (swoje_prawo(dane, a)+swoje_gora(dane, a)!=2))
@@ -386,6 +387,7 @@ void minus(WINDOW *win, struct dane* dane, struct zasady* zasady, int a)
 			break;
 	case 6: if ((mprawo(dane, a) == mgora(dane, a)) && (mgora(dane, a)*mprawo(dane, a) != 0) && (swoje_prawo(dane, a)+swoje_gora(dane, a)!=2))
 				minus_change(win, dane, zasady, 6,3,7);
+			break;
 	case 7: if (((mgora(dane, a) == mlewo(dane, a)) && (mgora(dane, a)*mlewo(dane, a)) != 0) && (swoje_gora(dane, a)+swoje_lewo(dane, a)!=2))
 				minus_change(win, dane, zasady, 7,4,6);
 			if ((mprawo(dane, a) == mgora(dane, a)) && (mprawo(dane, a)*mgora(dane, a) != 0) && (swoje_prawo(dane, a)+swoje_gora(dane, a)!=2))
