@@ -4,11 +4,6 @@ project(tripletriad C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Add libremidi as a subdirectory (library mode, no examples/tests)
-set(LIBREMIDI_EXAMPLES OFF CACHE BOOL "" FORCE)
-set(LIBREMIDI_TESTS OFF CACHE BOOL "" FORCE)
-add_subdirectory(libremidi)
-
 # Find curses
 find_package(Curses REQUIRED)
 
@@ -22,5 +17,8 @@ add_executable(tripletriad
 )
 
 target_include_directories(tripletriad PRIVATE ${CURSES_INCLUDE_DIR})
-target_link_libraries(tripletriad PRIVATE libremidi ${CURSES_LIBRARIES} m)
+target_link_libraries(tripletriad PRIVATE ${CURSES_LIBRARIES} m)
+
+# Sound disabled — AudioToolbox no longer needed
+
 target_compile_features(tripletriad PRIVATE cxx_std_20)
