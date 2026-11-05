@@ -22,6 +22,7 @@
 #include "pliki.h"
 #include "struktury.h"
 #include "zasady.h"
+#include <locale.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -63,9 +64,11 @@ int main(int argc, char **argv) {
 
     srand(time(0));
 
+    setlocale(LC_ALL, "");
+
     initscr();
 
-    włącz_kolory();
+    wlacz_kolory();
 
     noecho();
 

@@ -77,7 +77,7 @@ void wynik(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura) {
 
         print_in_middle(win, 17, 0, 0, "Wygrywa gracz pierwszy!");
 
-        midi_start(zasady, "midi/fan.mid");
+        midi_start(zasady, "src/midi/fan.mid");
 
     } else if (wynik1 < wynik2)
 
@@ -85,7 +85,7 @@ void wynik(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura) {
 
         print_in_middle(win, 17, 0, 0, "Wygrywa gracz drugi!");
 
-        midi_start(zasady, "midi/fan2.mid");
+        midi_start(zasady, "src/midi/fan2.mid");
 
     } else
 
@@ -93,7 +93,7 @@ void wynik(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura) {
 
         print_in_middle(win, 17, 0, 0, "Remis!\n");
 
-        midi_start(zasady, "midi/fan3.mid");
+        midi_start(zasady, "src/midi/fan3.mid");
     }
     wrefresh(win);
 
@@ -775,7 +775,7 @@ void gra(struct dane *dane, struct zasady *zasady) {
 
     if (zasady->muzyka)
 
-        midi_start(zasady, "midi/sob.mid");
+        midi_start(zasady, "src/midi/sob.mid");
 
     przygotuj_karty(dane);
 
@@ -1329,7 +1329,7 @@ menu:
 
             mvwprintw(settings_win, 20, 45, "Muzyka włączona");
 
-            midi_start(zasady, "midi/fh.mid");
+            midi_start(zasady, "src/midi/fh.mid");
 
         } else
 
@@ -1459,7 +1459,7 @@ menu:
 
     if (zasady->muzyka)
 
-        midi_start(zasady, "midi/fh.mid");
+        midi_start(zasady, "src/midi/fh.mid");
 
     print_menu(menu_win, highlight);
 
@@ -1542,7 +1542,7 @@ menu:
     goto menu;
 }
 
-void włącz_kolory() {
+void wlacz_kolory() {
 
     start_color();
 
