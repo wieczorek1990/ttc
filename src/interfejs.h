@@ -5,11 +5,11 @@
 
 void wynik2(WINDOW *win, struct dane *dane);
 
-void wynik(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura);
+int wynik(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura);
 
 void plansza(WINDOW *win, struct dane *dane);
 
-void wypisz_karty(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura);
+int wypisz_karty(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura);
 
 void idz_pole(WINDOW *win, int wybor);
 
@@ -19,7 +19,7 @@ void idz_karta(WINDOW *win, int tura, int wybor);
 
 int wybieranie_karty(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura);
 
-void ruch(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura);
+int ruch(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura);
 
 void przygotuj_karty(struct dane *dane);
 
@@ -47,7 +47,7 @@ void midi_start(struct zasady *zasady, char *midi);
 
 void midi_stop(struct zasady *zasady);
 
-extern void wykonaj_zasady(WINDOW *win, struct dane *dane, struct zasady *zasady, int a);
+extern int wykonaj_zasady(WINDOW *win, struct dane *dane, struct zasady *zasady, int a);
 
 extern int losowa(int min, int max);
 

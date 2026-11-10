@@ -5,7 +5,7 @@
 
 int losowa(int min, int max);
 
-void combo_zmiana(WINDOW *win, struct dane *dane, struct zasady *zasady, int zmiana0, int zmiana1, int zmiana2);
+int combo_zmiana(WINDOW *win, struct dane *dane, struct zasady *zasady, int zmiana0, int zmiana1, int zmiana2);
 
 void gora(WINDOW *win, struct dane *dane, struct zasady *zasady, int a);
 
@@ -41,9 +41,9 @@ int plewo(struct dane *dane, int a);
 
 int pprawo(struct dane *dane, int a);
 
-void plus_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, int b, int c);
+int plus_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, int b, int c);
 
-void plus(WINDOW *win, struct dane *dane, struct zasady *zasady, int a);
+int plus(WINDOW *win, struct dane *dane, struct zasady *zasady, int a);
 
 int mgora(struct dane *dane, int a);
 
@@ -53,16 +53,16 @@ int mlewo(struct dane *dane, int a);
 
 int mprawo(struct dane *dane, int a);
 
-void minus_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, int b, int c);
+int minus_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, int b, int c);
 
-void minus(WINDOW *win, struct dane *dane, struct zasady *zasady, int a);
+int minus(WINDOW *win, struct dane *dane, struct zasady *zasady, int a);
 
-void same_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, int b, int c);
+int same_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, int b, int c);
 
-void same(WINDOW *win, struct dane *dane, struct zasady *zasady, int a);
+int same(WINDOW *win, struct dane *dane, struct zasady *zasady, int a);
 
-void combo(WINDOW *win, struct dane *dane, struct zasady *zasady);
+int combo(WINDOW *win, struct dane *dane, struct zasady *zasady);
 
-void wykonaj_zasady(WINDOW *win, struct dane *dane, struct zasady *zasady, int a);
+int wykonaj_zasady(WINDOW *win, struct dane *dane, struct zasady *zasady, int a);
 
 #endif /* // ZASADY_H_INCLUDED */

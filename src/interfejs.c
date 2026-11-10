@@ -42,9 +42,9 @@ void wynik2(WINDOW *win, struct dane *dane) {
     wrefresh(win);
 }
 
-void wynik(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura) {
+int wynik(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura) {
 
-    int wynik1 = 0, wynik2 = 0, i;
+    int wynik1 = 0, wynik2 = 0, i, c;
 
     for (i = 0; i < 9; i++)
 
@@ -98,7 +98,12 @@ void wynik(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura) {
     }
     wrefresh(win);
 
-    wgetch(win);
+    c = wgetch(win);
+    if (c == 27) {
+        wattroff(win, COLOR_PAIR(1));
+        midi_stop(zasady);
+        return 1;
+    }
 
     wattron(win, A_REVERSE);
 
@@ -108,11 +113,17 @@ void wynik(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura) {
 
     wrefresh(win);
 
-    wgetch(win);
+    c = wgetch(win);
+    if (c == 27) {
+        wattroff(win, COLOR_PAIR(1));
+        midi_stop(zasady);
+        return 1;
+    }
 
     wattroff(win, COLOR_PAIR(1));
 
     midi_stop(zasady);
+    return 0;
 }
 
 void plansza(WINDOW *win, struct dane *dane) {
@@ -190,10 +201,10 @@ void plansza(WINDOW *win, struct dane *dane) {
     }
 }
 
-void wypisz_karty(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura) {
+int wypisz_karty(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura) {
 
     // 2 BLUE 3 RED 4 BLACK
-    int j, karta = 1, color1, color2, kolumna = 23;
+    int j, karta = 1, color1, color2, kolumna = 23, c;
 
     if (zasady->open)
 
@@ -236,8 +247,11 @@ void wypisz_karty(WINDOW *win, struct dane *dane, struct zasady *zasady, int tur
     wattroff(win, COLOR_PAIR(color1));
 
     if (!zasady->open && tura % 2 == 0)
-
-        wgetch(win);
+    {
+        c = wgetch(win);
+        if (c == 27)
+            return 1;
+    }
 
     for (j = 0; j < 5; j++)
 
@@ -299,8 +313,11 @@ void wypisz_karty(WINDOW *win, struct dane *dane, struct zasady *zasady, int tur
     wattroff(win, COLOR_PAIR(color2));
 
     if (!zasady->open && tura % 2 == 1)
-
-        wgetch(win);
+    {
+        c = wgetch(win);
+        if (c == 27)
+            return 1;
+    }
 
     for (j = 5; j < 10; j++)
 
@@ -345,6 +362,7 @@ void wypisz_karty(WINDOW *win, struct dane *dane, struct zasady *zasady, int tur
         karta++;
     }
     wrefresh(win);
+    return 0;
 }
 
 void idz_pole(WINDOW *win, int wybor) {
@@ -466,16 +484,9 @@ int wybieranie_pola(WINDOW *win, struct dane *dane, struct zasady *zasady, int *
 
         case 27:
             // ESC
-            midi_stop(zasady);
+            curs_set(0);
 
-            menu_glowne(dane, zasady);
-
-            break;
-
-            /*
-             * case 8: //BACKSPACE karta=wybieranie_karty(win,
-             * dane, zasady, tura); break;
-             */
+            return -1;
         }
         idz_pole(win, w);
 
@@ -578,11 +589,9 @@ int wybieranie_karty(WINDOW *win, struct dane *dane, struct zasady *zasady, int 
 
         case 27:
             // ESC
-            midi_stop(zasady);
+            curs_set(0);
 
-            menu_glowne(dane, zasady);
-
-            break;
+            return 0;
         }
         idz_karta(win, tura, w);
 
@@ -595,7 +604,7 @@ int wybieranie_karty(WINDOW *win, struct dane *dane, struct zasady *zasady, int 
     return wybor;
 }
 
-void ruch(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura) {
+int ruch(WINDOW *win, struct dane *dane, struct zasady *zasady, int tura) {
 
     int wybor, karta;
 
@@ -617,6 +626,10 @@ niekarta:
         wrefresh(win);
 
         karta = wybieranie_karty(win, dane, zasady, tura);
+
+        if (karta == 0)
+
+            return 1;
 
     } else
 
@@ -667,6 +680,10 @@ niepole:
 
     wybor = wybieranie_pola(win, dane, zasady, &karta, tura);
 
+    if (wybor == -1)
+
+        return 1;
+
     if (dane->znak[wybor] != 32)
 
     {
@@ -683,7 +700,9 @@ niepole:
 
         wrefresh(win);
 
-        getch();
+        if (getch() == 27)
+
+            return 1;
 
         goto niepole;
     }
@@ -705,7 +724,11 @@ niepole:
 
     dane->wylozona[karta] = 1;
 
-    wykonaj_zasady(win, dane, zasady, wybor);
+    if (wykonaj_zasady(win, dane, zasady, wybor))
+
+        return 1;
+
+    return 0;
 }
 
 void przygotuj_karty(struct dane *dane) {
@@ -792,13 +815,31 @@ void gra(struct dane *dane, struct zasady *zasady) {
 
         czysc_linie(win, 13, 21);
 
-        wypisz_karty(win, dane, zasady, tura);
+        if (wypisz_karty(win, dane, zasady, tura))
+        {
+            delwin(win);
+            midi_stop(zasady);
+            menu_glowne(dane, zasady);
+            return;
+        }
 
         wrefresh(win);
 
-        ruch(win, dane, zasady, tura);
+        if (ruch(win, dane, zasady, tura))
+        {
+            delwin(win);
+            midi_stop(zasady);
+            menu_glowne(dane, zasady);
+            return;
+        }
     }
-    wynik(win, dane, zasady, tura);
+    if (wynik(win, dane, zasady, tura))
+    {
+        delwin(win);
+        midi_stop(zasady);
+        menu_glowne(dane, zasady);
+        return;
+    }
 
     if (zasady->muzyka)
 
@@ -953,6 +994,12 @@ menu:
         case 10:
 
             wybor = highlight;
+
+            break;
+
+        case 27:
+            // ESC
+            wybor = 2;
 
             break;
         }
@@ -1154,6 +1201,12 @@ menu:
         case 10:
 
             wybor = highlight;
+
+            break;
+
+        case 27:
+            // ESC
+            wybor = 12;
 
             break;
         }
@@ -1499,6 +1552,12 @@ menu:
         case 10:
 
             wybor = highlight;
+
+            break;
+
+        case 27:
+            // ESC
+            wybor = 4;
 
             break;
         }

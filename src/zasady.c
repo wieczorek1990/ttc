@@ -5,7 +5,7 @@ int losowa(int min, int max) {
     return (min + (rand() % (max - min + 1)));
 }
 
-void combo_zmiana(WINDOW *win, struct dane *dane, struct zasady *zasady, int zmiana0, int zmiana1, int zmiana2) {
+int combo_zmiana(WINDOW *win, struct dane *dane, struct zasady *zasady, int zmiana0, int zmiana1, int zmiana2) {
 
     dane->zmiana0 = zmiana0;
 
@@ -14,8 +14,11 @@ void combo_zmiana(WINDOW *win, struct dane *dane, struct zasady *zasady, int zmi
     dane->zmiana2 = zmiana2;
 
     if (zasady->combo)
-
-        combo(win, dane, zasady);
+    {
+        int r = combo(win, dane, zasady);
+        if (r) return r;
+    }
+    return 0;
 }
 
 void gora(WINDOW *win, struct dane *dane, struct zasady *zasady, int a) {
@@ -329,7 +332,7 @@ int pprawo(struct dane *dane, int a) {
         return 0;
 }
 
-void plus_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, int b, int c) {
+int plus_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, int b, int c) {
 
     dane->znak[b] = dane->znak[c] = dane->znak[a];
 
@@ -345,12 +348,13 @@ void plus_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, i
 
     wrefresh(win);
 
-    wgetch(win);
+    if (wgetch(win) == 27)
+        return 1;
 
-    combo_zmiana(win, dane, zasady, a, b, c);
+    return combo_zmiana(win, dane, zasady, a, b, c);
 }
 
-void plus(WINDOW *win, struct dane *dane, struct zasady *zasady, int a) {
+int plus(WINDOW *win, struct dane *dane, struct zasady *zasady, int a) {
 
     switch (a)
 
@@ -358,119 +362,164 @@ void plus(WINDOW *win, struct dane *dane, struct zasady *zasady, int a) {
 
     case 0:
         if ((pdol(dane, a) == pprawo(dane, a)) && (pdol(dane, a) * pprawo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_prawo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 0, 1, 3);
+        {
+            int r = plus_change(win, dane, zasady, 0, 1, 3);
+            if (r) return r;
+        }
 
         break;
 
     case 1:
         if ((pdol(dane, a) == plewo(dane, a)) && (pdol(dane, a) * plewo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_lewo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 1, 0, 4);
+        {
+            int r = plus_change(win, dane, zasady, 1, 0, 4);
+            if (r) return r;
+        }
 
         if ((pdol(dane, a) == pprawo(dane, a)) && (pdol(dane, a) * pprawo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_prawo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 1, 2, 4);
+        {
+            int r = plus_change(win, dane, zasady, 1, 2, 4);
+            if (r) return r;
+        }
 
         if ((plewo(dane, a) == pprawo(dane, a)) && (plewo(dane, a) * pprawo(dane, a) != 0) && (swoje_lewo(dane, a) + swoje_prawo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 1, 0, 2);
+        {
+            int r = plus_change(win, dane, zasady, 1, 0, 2);
+            if (r) return r;
+        }
 
         break;
 
     case 2:
         if ((pdol(dane, a) == plewo(dane, a)) && (pdol(dane, a) * plewo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_lewo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 2, 1, 5);
+        {
+            int r = plus_change(win, dane, zasady, 2, 1, 5);
+            if (r) return r;
+        }
 
         break;
 
     case 3:
         if ((pdol(dane, a) == pgora(dane, a)) && (pdol(dane, a) * pgora(dane, a) != 0) && (swoje_dol(dane, a) + swoje_gora(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 3, 0, 6);
+        {
+            int r = plus_change(win, dane, zasady, 3, 0, 6);
+            if (r) return r;
+        }
 
         if ((pdol(dane, a) == pprawo(dane, a)) && (pdol(dane, a) * pprawo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_prawo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 3, 4, 6);
+        {
+            int r = plus_change(win, dane, zasady, 3, 4, 6);
+            if (r) return r;
+        }
 
         if ((pprawo(dane, a) == pgora(dane, a)) && (pgora(dane, a) * pprawo(dane, a) != 0) && (swoje_prawo(dane, a) + swoje_gora(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 3, 0, 4);
+        {
+            int r = plus_change(win, dane, zasady, 3, 0, 4);
+            if (r) return r;
+        }
 
         break;
 
     case 4:
         if ((pdol(dane, a) == plewo(dane, a)) && (pdol(dane, a) * plewo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_lewo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 4, 3, 7);
+        {
+            int r = plus_change(win, dane, zasady, 4, 3, 7);
+            if (r) return r;
+        }
 
         if ((pdol(dane, a) == pgora(dane, a)) && (pdol(dane, a) * pgora(dane, a) != 0) && (swoje_dol(dane, a) + swoje_gora(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 4, 1, 7);
+        {
+            int r = plus_change(win, dane, zasady, 4, 1, 7);
+            if (r) return r;
+        }
 
         if ((pdol(dane, a) == pprawo(dane, a)) && (pdol(dane, a) * pprawo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_prawo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 4, 5, 7);
+        {
+            int r = plus_change(win, dane, zasady, 4, 5, 7);
+            if (r) return r;
+        }
 
         if ((plewo(dane, a) == pgora(dane, a)) && (plewo(dane, a) * pgora(dane, a) != 0) && (swoje_gora(dane, a) + swoje_lewo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 4, 1, 3);
+        {
+            int r = plus_change(win, dane, zasady, 4, 1, 3);
+            if (r) return r;
+        }
 
         if ((plewo(dane, a) == pprawo(dane, a)) && (plewo(dane, a) * pprawo(dane, a) != 0) && (swoje_lewo(dane, a) + swoje_prawo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 4, 3, 5);
+        {
+            int r = plus_change(win, dane, zasady, 4, 3, 5);
+            if (r) return r;
+        }
 
         if ((pprawo(dane, a) == pgora(dane, a)) && (pprawo(dane, a) * pgora(dane, a) != 0) && (swoje_prawo(dane, a) + swoje_gora(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 4, 1, 5);
+        {
+            int r = plus_change(win, dane, zasady, 4, 1, 5);
+            if (r) return r;
+        }
 
         break;
 
     case 5:
         if ((pdol(dane, a) == plewo(dane, a)) && (pdol(dane, a) * plewo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_lewo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 5, 4, 8);
+        {
+            int r = plus_change(win, dane, zasady, 5, 4, 8);
+            if (r) return r;
+        }
 
         if ((pdol(dane, a) == pgora(dane, a)) && (pdol(dane, a) * pgora(dane, a) != 0) && (swoje_dol(dane, a) + swoje_gora(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 5, 2, 8);
+        {
+            int r = plus_change(win, dane, zasady, 5, 2, 8);
+            if (r) return r;
+        }
 
         if ((plewo(dane, a) == pgora(dane, a)) && (plewo(dane, a) * pgora(dane, a) != 0) && (swoje_gora(dane, a) + swoje_lewo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 5, 2, 4);
+        {
+            int r = plus_change(win, dane, zasady, 5, 2, 4);
+            if (r) return r;
+        }
 
         break;
 
     case 6:
         if ((pprawo(dane, a) == pgora(dane, a)) && (pgora(dane, a) * pprawo(dane, a) != 0) && (swoje_prawo(dane, a) + swoje_gora(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 6, 3, 7);
+        {
+            int r = plus_change(win, dane, zasady, 6, 3, 7);
+            if (r) return r;
+        }
 
         break;
 
     case 7:
         if (((pgora(dane, a) == plewo(dane, a)) && (pgora(dane, a) * plewo(dane, a)) != 0) && (swoje_gora(dane, a) + swoje_lewo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 7, 4, 6);
+        {
+            int r = plus_change(win, dane, zasady, 7, 4, 6);
+            if (r) return r;
+        }
 
         if ((pprawo(dane, a) == pgora(dane, a)) && (pprawo(dane, a) * pgora(dane, a) != 0) && (swoje_prawo(dane, a) + swoje_gora(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 7, 4, 8);
+        {
+            int r = plus_change(win, dane, zasady, 7, 4, 8);
+            if (r) return r;
+        }
 
         if ((plewo(dane, a) == pprawo(dane, a)) && (plewo(dane, a) * pprawo(dane, a) != 0) && (swoje_lewo(dane, a) + swoje_prawo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 7, 6, 8);
+        {
+            int r = plus_change(win, dane, zasady, 7, 6, 8);
+            if (r) return r;
+        }
 
         break;
 
     case 8:
         if ((pgora(dane, a) == plewo(dane, a)) && (pgora(dane, a) * plewo(dane, a) != 0) && (swoje_gora(dane, a) + swoje_lewo(dane, a) != 2))
-
-            plus_change(win, dane, zasady, 8, 5, 7);
+        {
+            int r = plus_change(win, dane, zasady, 8, 5, 7);
+            if (r) return r;
+        }
 
         break;
     }
+    return 0;
 }
 
 int mgora(struct dane *dane, int a) {
@@ -549,7 +598,7 @@ int mprawo(struct dane *dane, int a) {
         return 0;
 }
 
-void minus_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, int b, int c) {
+int minus_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, int b, int c) {
 
     dane->znak[b] = dane->znak[c] = dane->znak[a];
 
@@ -565,12 +614,13 @@ void minus_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, 
 
     wrefresh(win);
 
-    wgetch(win);
+    if (wgetch(win) == 27)
+        return 1;
 
-    combo_zmiana(win, dane, zasady, a, b, c);
+    return combo_zmiana(win, dane, zasady, a, b, c);
 }
 
-void minus(WINDOW *win, struct dane *dane, struct zasady *zasady, int a) {
+int minus(WINDOW *win, struct dane *dane, struct zasady *zasady, int a) {
 
     switch (a)
 
@@ -578,122 +628,167 @@ void minus(WINDOW *win, struct dane *dane, struct zasady *zasady, int a) {
 
     case 0:
         if ((mdol(dane, a) == mprawo(dane, a)) && (mdol(dane, a) * mprawo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_prawo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 0, 1, 3);
+        {
+            int r = minus_change(win, dane, zasady, 0, 1, 3);
+            if (r) return r;
+        }
 
         break;
 
     case 1:
         if ((mdol(dane, a) == mlewo(dane, a)) && (mdol(dane, a) * mlewo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_lewo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 1, 0, 4);
+        {
+            int r = minus_change(win, dane, zasady, 1, 0, 4);
+            if (r) return r;
+        }
 
         if ((mdol(dane, a) == mprawo(dane, a)) && (mdol(dane, a) * mprawo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_prawo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 1, 2, 4);
+        {
+            int r = minus_change(win, dane, zasady, 1, 2, 4);
+            if (r) return r;
+        }
 
         if ((mlewo(dane, a) == mprawo(dane, a)) && (mlewo(dane, a) * mprawo(dane, a) != 0) && (swoje_lewo(dane, a) + swoje_prawo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 1, 0, 2);
+        {
+            int r = minus_change(win, dane, zasady, 1, 0, 2);
+            if (r) return r;
+        }
 
         break;
 
     case 2:
         if ((mdol(dane, a) == mlewo(dane, a)) && (mdol(dane, a) * mlewo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_lewo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 2, 1, 5);
+        {
+            int r = minus_change(win, dane, zasady, 2, 1, 5);
+            if (r) return r;
+        }
 
         break;
 
     case 3:
         if ((mdol(dane, a) == mgora(dane, a)) && (mdol(dane, a) * mgora(dane, a) != 0) && (swoje_dol(dane, a) + swoje_gora(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 3, 0, 6);
+        {
+            int r = minus_change(win, dane, zasady, 3, 0, 6);
+            if (r) return r;
+        }
 
         if ((mdol(dane, a) == mprawo(dane, a)) && (mdol(dane, a) * mprawo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_prawo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 3, 4, 6);
+        {
+            int r = minus_change(win, dane, zasady, 3, 4, 6);
+            if (r) return r;
+        }
 
         if ((mprawo(dane, a) == mgora(dane, a)) && (mgora(dane, a) * mprawo(dane, a) != 0) && (swoje_prawo(dane, a) + swoje_gora(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 3, 0, 4);
+        {
+            int r = minus_change(win, dane, zasady, 3, 0, 4);
+            if (r) return r;
+        }
 
         break;
 
     case 4:
         if ((mdol(dane, a) == mlewo(dane, a)) && (mdol(dane, a) * mlewo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_lewo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 4, 3, 7);
+        {
+            int r = minus_change(win, dane, zasady, 4, 3, 7);
+            if (r) return r;
+        }
 
         if ((mdol(dane, a) == mgora(dane, a)) && (mdol(dane, a) * mgora(dane, a) != 0) && (swoje_dol(dane, a) + swoje_gora(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 4, 1, 7);
+        {
+            int r = minus_change(win, dane, zasady, 4, 1, 7);
+            if (r) return r;
+        }
 
         if ((mdol(dane, a) == mprawo(dane, a)) && (mdol(dane, a) * mprawo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_prawo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 4, 5, 7);
+        {
+            int r = minus_change(win, dane, zasady, 4, 5, 7);
+            if (r) return r;
+        }
 
         if ((mlewo(dane, a) == mgora(dane, a)) && (mlewo(dane, a) * mgora(dane, a) != 0) && (swoje_gora(dane, a) + swoje_lewo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 4, 1, 3);
+        {
+            int r = minus_change(win, dane, zasady, 4, 1, 3);
+            if (r) return r;
+        }
 
         if ((mlewo(dane, a) == mprawo(dane, a)) && (mlewo(dane, a) * mprawo(dane, a) != 0) && (swoje_lewo(dane, a) + swoje_prawo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 4, 3, 5);
+        {
+            int r = minus_change(win, dane, zasady, 4, 3, 5);
+            if (r) return r;
+        }
 
         if ((mprawo(dane, a) == mgora(dane, a)) && (mprawo(dane, a) * mgora(dane, a) != 0) && (swoje_prawo(dane, a) + swoje_gora(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 4, 1, 5);
+        {
+            int r = minus_change(win, dane, zasady, 4, 1, 5);
+            if (r) return r;
+        }
 
         break;
 
     case 5:
         if ((mdol(dane, a) == mlewo(dane, a)) && (mdol(dane, a) * mlewo(dane, a) != 0) && (swoje_dol(dane, a) + swoje_lewo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 5, 4, 8);
+        {
+            int r = minus_change(win, dane, zasady, 5, 4, 8);
+            if (r) return r;
+        }
 
         if ((mdol(dane, a) == mgora(dane, a)) && (mdol(dane, a) * mgora(dane, a) != 0) && (swoje_dol(dane, a) + swoje_gora(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 5, 2, 8);
+        {
+            int r = minus_change(win, dane, zasady, 5, 2, 8);
+            if (r) return r;
+        }
 
         if ((mlewo(dane, a) == mgora(dane, a)) && (mlewo(dane, a) * mgora(dane, a) != 0) && (swoje_gora(dane, a) + swoje_lewo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 5, 2, 4);
+        {
+            int r = minus_change(win, dane, zasady, 5, 2, 4);
+            if (r) return r;
+        }
 
         break;
 
     case 6:
         if ((mprawo(dane, a) == mgora(dane, a)) && (mgora(dane, a) * mprawo(dane, a) != 0) && (swoje_prawo(dane, a) + swoje_gora(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 6, 3, 7);
+        {
+            int r = minus_change(win, dane, zasady, 6, 3, 7);
+            if (r) return r;
+        }
 
         break;
 
     case 7:
         if (((mgora(dane, a) == mlewo(dane, a)) && (mgora(dane, a) * mlewo(dane, a)) != 0) && (swoje_gora(dane, a) + swoje_lewo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 7, 4, 6);
+        {
+            int r = minus_change(win, dane, zasady, 7, 4, 6);
+            if (r) return r;
+        }
 
         if ((mprawo(dane, a) == mgora(dane, a)) && (mprawo(dane, a) * mgora(dane, a) != 0) && (swoje_prawo(dane, a) + swoje_gora(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 7, 4, 8);
+        {
+            int r = minus_change(win, dane, zasady, 7, 4, 8);
+            if (r) return r;
+        }
 
         if ((mlewo(dane, a) == mprawo(dane, a)) && (mlewo(dane, a) * mprawo(dane, a) != 0) && (swoje_lewo(dane, a) + swoje_prawo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 7, 6, 8);
+        {
+            int r = minus_change(win, dane, zasady, 7, 6, 8);
+            if (r) return r;
+        }
 
         break;
 
     case 8:
         if ((mgora(dane, a) == mlewo(dane, a)) && (mgora(dane, a) * mlewo(dane, a) != 0) && (swoje_gora(dane, a) + swoje_lewo(dane, a) != 2))
-
-            minus_change(win, dane, zasady, 8, 7, 5);
+        {
+            int r = minus_change(win, dane, zasady, 8, 7, 5);
+            if (r) return r;
+        }
 
         break;
     }
+    return 0;
 }
 
-void same_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, int b, int c) {
+int same_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, int b, int c) {
 
     dane->znak[b] = dane->znak[c] = dane->znak[a];
 
@@ -709,12 +804,13 @@ void same_change(WINDOW *win, struct dane *dane, struct zasady *zasady, int a, i
 
     wrefresh(win);
 
-    wgetch(win);
+    if (wgetch(win) == 27)
+        return 1;
 
-    combo_zmiana(win, dane, zasady, a, b, c);
+    return combo_zmiana(win, dane, zasady, a, b, c);
 }
 
-void same(WINDOW *win, struct dane *dane, struct zasady *zasady, int a) {
+int same(WINDOW *win, struct dane *dane, struct zasady *zasady, int a) {
 
     switch (a)
 
@@ -722,122 +818,167 @@ void same(WINDOW *win, struct dane *dane, struct zasady *zasady, int a) {
 
     case 0:
         if (sdol(dane, a) && sprawo(dane, a) && (swoje_dol(dane, a) + swoje_prawo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 0, 1, 3);
+        {
+            int r = same_change(win, dane, zasady, 0, 1, 3);
+            if (r) return r;
+        }
 
         break;
 
     case 1:
         if (sdol(dane, a) && slewo(dane, a) && (swoje_dol(dane, a) + swoje_lewo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 1, 0, 4);
+        {
+            int r = same_change(win, dane, zasady, 1, 0, 4);
+            if (r) return r;
+        }
 
         if (sdol(dane, a) && sprawo(dane, a) && (swoje_dol(dane, a) + swoje_prawo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 1, 2, 4);
+        {
+            int r = same_change(win, dane, zasady, 1, 2, 4);
+            if (r) return r;
+        }
 
         if (slewo(dane, a) && sprawo(dane, a) && (swoje_lewo(dane, a) + swoje_prawo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 1, 0, 2);
+        {
+            int r = same_change(win, dane, zasady, 1, 0, 2);
+            if (r) return r;
+        }
 
         break;
 
     case 2:
         if (sdol(dane, a) && slewo(dane, a) && (swoje_dol(dane, a) + swoje_lewo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 2, 1, 5);
+        {
+            int r = same_change(win, dane, zasady, 2, 1, 5);
+            if (r) return r;
+        }
 
         break;
 
     case 3:
         if (sdol(dane, a) && sgora(dane, a) && (swoje_dol(dane, a) + swoje_gora(dane, a) != 2))
-
-            same_change(win, dane, zasady, 3, 0, 6);
+        {
+            int r = same_change(win, dane, zasady, 3, 0, 6);
+            if (r) return r;
+        }
 
         if (sdol(dane, a) && sprawo(dane, a) && (swoje_dol(dane, a) + swoje_prawo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 3, 4, 6);
+        {
+            int r = same_change(win, dane, zasady, 3, 4, 6);
+            if (r) return r;
+        }
 
         if (sgora(dane, a) && sprawo(dane, a) && (swoje_prawo(dane, a) + swoje_gora(dane, a) != 2))
-
-            same_change(win, dane, zasady, 3, 0, 4);
+        {
+            int r = same_change(win, dane, zasady, 3, 0, 4);
+            if (r) return r;
+        }
 
         break;
 
     case 4:
         if (sdol(dane, a) && slewo(dane, a) && (swoje_dol(dane, a) + swoje_lewo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 4, 3, 7);
+        {
+            int r = same_change(win, dane, zasady, 4, 3, 7);
+            if (r) return r;
+        }
 
         if (sdol(dane, a) && sgora(dane, a) && (swoje_dol(dane, a) + swoje_gora(dane, a) != 2))
-
-            same_change(win, dane, zasady, 4, 1, 7);
+        {
+            int r = same_change(win, dane, zasady, 4, 1, 7);
+            if (r) return r;
+        }
 
         if (sdol(dane, a) && sprawo(dane, a) && (swoje_dol(dane, a) + swoje_prawo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 4, 5, 7);
+        {
+            int r = same_change(win, dane, zasady, 4, 5, 7);
+            if (r) return r;
+        }
 
         if (slewo(dane, a) && sgora(dane, a) && (swoje_gora(dane, a) + swoje_lewo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 4, 1, 3);
+        {
+            int r = same_change(win, dane, zasady, 4, 1, 3);
+            if (r) return r;
+        }
 
         if (slewo(dane, a) && sprawo(dane, a) && (swoje_lewo(dane, a) + swoje_prawo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 4, 3, 5);
+        {
+            int r = same_change(win, dane, zasady, 4, 3, 5);
+            if (r) return r;
+        }
 
         if (sprawo(dane, a) && sgora(dane, a) && (swoje_prawo(dane, a) + swoje_gora(dane, a) != 2))
-
-            same_change(win, dane, zasady, 4, 1, 5);
+        {
+            int r = same_change(win, dane, zasady, 4, 1, 5);
+            if (r) return r;
+        }
 
         break;
 
     case 5:
         if (sdol(dane, a) && slewo(dane, a) && (swoje_dol(dane, a) + swoje_lewo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 5, 4, 8);
+        {
+            int r = same_change(win, dane, zasady, 5, 4, 8);
+            if (r) return r;
+        }
 
         if (sdol(dane, a) && sgora(dane, a) && (swoje_dol(dane, a) + swoje_gora(dane, a) != 2))
-
-            same_change(win, dane, zasady, 5, 2, 8);
+        {
+            int r = same_change(win, dane, zasady, 5, 2, 8);
+            if (r) return r;
+        }
 
         if (slewo(dane, a) && sgora(dane, a) && (swoje_lewo(dane, a) + swoje_gora(dane, a) != 2))
-
-            same_change(win, dane, zasady, 5, 2, 4);
+        {
+            int r = same_change(win, dane, zasady, 5, 2, 4);
+            if (r) return r;
+        }
 
         break;
 
     case 6:
         if (sgora(dane, a) && sprawo(dane, a) && (swoje_prawo(dane, a) + swoje_gora(dane, a) != 2))
-
-            same_change(win, dane, zasady, 6, 3, 7);
+        {
+            int r = same_change(win, dane, zasady, 6, 3, 7);
+            if (r) return r;
+        }
 
         break;
 
     case 7:
         if (sgora(dane, a) && slewo(dane, a) && (swoje_gora(dane, a) + swoje_lewo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 7, 4, 6);
+        {
+            int r = same_change(win, dane, zasady, 7, 4, 6);
+            if (r) return r;
+        }
 
         if (sprawo(dane, a) && sgora(dane, a) && (swoje_prawo(dane, a) + swoje_gora(dane, a) != 2))
-
-            same_change(win, dane, zasady, 7, 4, 8);
+        {
+            int r = same_change(win, dane, zasady, 7, 4, 8);
+            if (r) return r;
+        }
 
         if (slewo(dane, a) && sprawo(dane, a) && (swoje_lewo(dane, a) + swoje_prawo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 7, 6, 8);
+        {
+            int r = same_change(win, dane, zasady, 7, 6, 8);
+            if (r) return r;
+        }
 
         break;
 
     case 8:
         if (sgora(dane, a) && slewo(dane, a) && (swoje_gora(dane, a) + swoje_lewo(dane, a) != 2))
-
-            same_change(win, dane, zasady, 8, 5, 7);
+        {
+            int r = same_change(win, dane, zasady, 8, 5, 7);
+            if (r) return r;
+        }
 
         break;
     }
+    return 0;
 }
 
-void combo(WINDOW *win, struct dane *dane, struct zasady *zasady) {
+int combo(WINDOW *win, struct dane *dane, struct zasady *zasady) {
 
     dane->zbilem = 0;
 
@@ -869,7 +1010,8 @@ void combo(WINDOW *win, struct dane *dane, struct zasady *zasady) {
 
         wrefresh(win);
 
-        wgetch(win);
+        if (wgetch(win) == 27)
+            return 1;
     }
     dane->zmiana0 = 0;
 
@@ -878,21 +1020,29 @@ void combo(WINDOW *win, struct dane *dane, struct zasady *zasady) {
     dane->zmiana2 = 0;
 
     dane->zbilem = 0;
+    return 0;
 }
 
-void wykonaj_zasady(WINDOW *win, struct dane *dane, struct zasady *zasady, int a) {
+int wykonaj_zasady(WINDOW *win, struct dane *dane, struct zasady *zasady, int a) {
 
     if (zasady->same)
-
-        same(win, dane, zasady, a);
+    {
+        int r = same(win, dane, zasady, a);
+        if (r) return r;
+    }
 
     if (zasady->plus)
-
-        plus(win, dane, zasady, a);
+    {
+        int r = plus(win, dane, zasady, a);
+        if (r) return r;
+    }
 
     if (zasady->minus)
-
-        minus(win, dane, zasady, a);
+    {
+        int r = minus(win, dane, zasady, a);
+        if (r) return r;
+    }
 
     bicie(win, dane, zasady, a);
+    return 0;
 }

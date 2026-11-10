@@ -71,6 +71,8 @@ int main(int argc, char **argv) {
 
     initscr();
 
+    set_escdelay(0);
+
     wlacz_kolory();
 
     noecho();
