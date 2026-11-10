@@ -791,7 +791,16 @@ void gra(struct dane *dane, struct zasady *zasady) {
 
     WINDOW *win;
 
-    win = newwin(HEIGHT, WIDTH, (24 - HEIGHT) / 2, (80 - WIDTH) / 2);
+    int starty = (LINES - HEIGHT) / 2;
+    int startx = (COLS - WIDTH) / 2;
+    if (starty < 0) starty = 0;
+    if (startx < 0) startx = 0;
+
+    clearok(stdscr, TRUE);
+    erase();
+    wrefresh(stdscr);
+
+    win = newwin(HEIGHT, WIDTH, starty, startx);
 
     keypad(win, TRUE);
 
@@ -895,6 +904,7 @@ void print_autor(WINDOW *win, int highlight) {
 
     int x = 13, y = 17, i;
 
+    werase(win);
     box(win, 0, 0);
 
     wattron(win, COLOR_PAIR(5));
@@ -948,7 +958,16 @@ void autor(struct dane *dane, struct zasady *zasady) {
 
     int highlight = 1, wybor, c;
 
-    win = newwin(HEIGHT, WIDTH, (24 - HEIGHT) / 2, (80 - WIDTH) / 2);
+    int starty = (LINES - HEIGHT) / 2;
+    int startx = (COLS - WIDTH) / 2;
+    if (starty < 0) starty = 0;
+    if (startx < 0) startx = 0;
+
+    clearok(stdscr, TRUE);
+    erase();
+    wrefresh(stdscr);
+
+    win = newwin(HEIGHT, WIDTH, starty, startx);
 
     keypad(win, TRUE);
 
@@ -1069,6 +1088,7 @@ void print_menu(WINDOW *menu_win, int highlight) {
 
     int x = 29, y = 13, i;
 
+    werase(menu_win);
     print_logo(menu_win);
 
     box(menu_win, 0, 0);
@@ -1120,6 +1140,7 @@ void print_settings(WINDOW *win, int highlight) {
 
     int x = 13, y = 12, i;
 
+    werase(win);
     box(win, 0, 0);
 
     wattron(win, COLOR_PAIR(5));
@@ -1155,7 +1176,16 @@ void ustawienia(struct dane *dane, struct zasady *zasady) {
 
     int highlight = 1, wybor, c;
 
-    settings_win = newwin(HEIGHT, WIDTH, (24 - HEIGHT) / 2, (80 - WIDTH) / 2);
+    int starty = (LINES - HEIGHT) / 2;
+    int startx = (COLS - WIDTH) / 2;
+    if (starty < 0) starty = 0;
+    if (startx < 0) startx = 0;
+
+    clearok(stdscr, TRUE);
+    erase();
+    wrefresh(stdscr);
+
+    settings_win = newwin(HEIGHT, WIDTH, starty, startx);
 
     keypad(settings_win, TRUE);
 
@@ -1504,7 +1534,16 @@ void menu_glowne(struct dane *dane, struct zasady *zasady) {
 
     int highlight = 1, wybor, c;
 
-    menu_win = newwin(HEIGHT, WIDTH, (24 - HEIGHT) / 2, (80 - WIDTH) / 2);
+    int starty = (LINES - HEIGHT) / 2;
+    int startx = (COLS - WIDTH) / 2;
+    if (starty < 0) starty = 0;
+    if (startx < 0) startx = 0;
+
+    clearok(stdscr, TRUE);
+    erase();
+    wrefresh(stdscr);
+
+    menu_win = newwin(HEIGHT, WIDTH, starty, startx);
 
     keypad(menu_win, TRUE);
 
